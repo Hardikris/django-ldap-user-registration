@@ -1,7 +1,6 @@
 from django import forms
 from django.conf import settings
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.contrib.auth.models import User
 
 from crispy_forms.bootstrap import Field
 from crispy_forms.helper import FormHelper
@@ -13,6 +12,7 @@ from django_countries.fields import CountryField
 from .models import Institution
 from .ldap import LDAPOperations
 
+User = settings.AUTH_USER_MODEL
 
 class UserRegisterForm(forms.Form):
     title_choices = (('Mr.', 'Mr'), ('Ms', 'Ms',), ('Mrs.', 'Mrs.',), ('Dr.', 'Dr.',), ('Prof.', 'Prof.',),)

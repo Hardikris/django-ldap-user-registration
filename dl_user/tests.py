@@ -1,13 +1,14 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
-from django.contrib.auth.models import User
 
 from .models import Institution
 from .models import UserRegistrationRecord
 from .ldap import LDAPOperations
 from .passwd import PasswordUtils
 
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 
 class IndexTestCase(TestCase):
     def test_index_load(self):

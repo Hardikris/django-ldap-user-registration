@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 from django.views import generic
-from django.contrib.auth.models import User
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.utils import timezone
@@ -19,6 +18,7 @@ from .utils import send_newly_registered_email
 from .exceptions import AccountActivationException
 from .exceptions import PasswordResetException
 
+User = settings.AUTH_USER_MODEL
 
 class IndexView(generic.TemplateView):
     # Index View
