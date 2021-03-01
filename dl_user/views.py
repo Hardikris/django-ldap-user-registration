@@ -18,7 +18,9 @@ from .utils import send_newly_registered_email
 from .exceptions import AccountActivationException
 from .exceptions import PasswordResetException
 
-User = settings.AUTH_USER_MODEL
+from django.contrib.auth import get_user_model
+User=get_user_model()
+
 
 class IndexView(generic.TemplateView):
     # Index View
@@ -146,7 +148,7 @@ class PasswordResetView(generic.FormView):
     template_name = 'dl_user/password_reset.html'
     form_class = PasswordResetForm
     success_url = reverse_lazy('dl_user:password_reset_success')
-
+    
     def form_valid(self, form):
         """
         1. get user by the provided email from db (die silently if there's none)
@@ -229,13 +231,4 @@ class PasswordEditSuccessView(generic.TemplateView):
     template_name = 'dl_user/password_edit_success.html'
 
 
-class UserRrAdminManager(generic.ListView):
-    """
-    Provides an interface for managing the signed up users. Admin can approve/deny sign-up requests
-    """
-    model = UserRegistrationRecord
-    paginate_by = 50
 
-
-class AdminUserDetailView(generic.DetailView):
-    model = UserRegistrationRecord

@@ -12,7 +12,8 @@ from django_countries.fields import CountryField
 from .models import Institution
 from .ldap import LDAPOperations
 
-User = settings.AUTH_USER_MODEL
+from django.contrib.auth import get_user_model
+User=get_user_model()
 
 class UserRegisterForm(forms.Form):
     title_choices = (('Mr.', 'Mr'), ('Ms', 'Ms',), ('Mrs.', 'Mrs.',), ('Dr.', 'Dr.',), ('Prof.', 'Prof.',),)
