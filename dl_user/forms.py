@@ -9,6 +9,9 @@ from crispy_forms.layout import Submit, Layout, Div, Fieldset
 from captcha.fields import ReCaptchaField
 from django_countries.fields import CountryField
 
+from django.contrib.auth.password_validation import validate_password
+from django.core import validators
+
 from .models import Institution
 from .ldap import LDAPOperations
 
@@ -46,7 +49,7 @@ class UserRegisterForm(forms.Form):
                                help_text='Choose a memorable name e.g jdoe',
                                validators=[UnicodeUsernameValidator()])
     email = forms.EmailField(required=True)
-    password = forms.CharField(widget=forms.PasswordInput, min_length=8)
+    password = forms.CharField(widget=forms.PasswordInput, min_length=8, validators=[validate_password])
     password1 = forms.CharField(widget=forms.PasswordInput, min_length=8, label='Confirm Password')
     # hide captcha field during unit tests
     if not settings.TESTING:
@@ -117,7 +120,6 @@ class UserRegisterForm(forms.Form):
         return mail
 
     def clean(self):
-
         # Check for password matching
         password = self.cleaned_data.get('password')
         password1 = self.cleaned_data.get('password1')
@@ -173,7 +175,7 @@ class PasswordResetForm(forms.Form):
 
 
 class PasswordResetEditForm(forms.Form):
-    password = forms.CharField(widget=forms.PasswordInput, min_length=8, label='New password')
+    password = forms.CharField(widget=forms.PasswordInput, validators=[validate_password], min_length=8, label='New password')
     password1 = forms.CharField(widget=forms.PasswordInput, min_length=8, label='New password confirmation')
 
     def __init__(self, *args, **kwargs):
